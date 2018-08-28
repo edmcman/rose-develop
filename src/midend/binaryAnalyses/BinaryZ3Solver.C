@@ -678,18 +678,14 @@ Z3Solver::ctxVariableDeclarations(const VariableSet &vars) {
             // already emitted a declaration for this variable
         } else if (var->isScalar()) {
             z3::sort range = ctx_->bv_sort(var->nBits());
-            std::stringstream ss;
-            ss << *var;
-            z3::func_decl decl = z3::function(ss.str ().c_str (), 0, NULL, range);
+            z3::func_decl decl = z3::function(var->toString().c_str(), 0, NULL, range);
             ctxVarDecls_.insert(var, decl);
         } else {
             ASSERT_require(var->domainWidth() > 0);
             z3::sort addr = ctx_->bv_sort(var->domainWidth());
             z3::sort value = ctx_->bv_sort(var->nBits());
             z3::sort range = ctx_->array_sort(addr, value);
-            std::stringstream ss;
-            ss << *var;
-            z3::func_decl decl = z3::function(ss.str ().c_str (), 0, NULL, range);
+            z3::func_decl decl = z3::function(var->toString().c_str(), 0, NULL, range);
             ctxVarDecls_.insert(var, decl);
         }
     }
